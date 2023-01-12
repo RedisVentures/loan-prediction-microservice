@@ -21,9 +21,11 @@ based census data.
 The purpose of this service is to demonstrate how to build low-latency machine learning
 applications with Redis and RedisAI. The diagram of the service is shown below:
 
+<br />
+<div align="center">
 
-<img src="./assets/workflow.png" alt="drawing" style="display:block;margin-left:auto;margin-right: auto;width: 30%;"/>
-
+<img src="./assets/workflow.png" alt="drawing" style="display:block;margin-left:auto;margin-right: auto;width: 45%;"/>
+</div>
 
 ### Feature and Inference Serving
 
@@ -42,8 +44,10 @@ To do this, a RedisAI ``DAG`` (directed acyclic graph) is used to chain together
 
 Here is an example of the operations that are performed in the DAG.
 
-<img src="../assets/dag.png" alt="drawing" style="display:block;margin-left:auto;margin-right: auto;width: 60%;"/>
-
+<br />
+<div align="center">
+<img src="./assets/DAG.png" alt="drawing" style="display:block;margin-left:auto;margin-right: auto;width: 60%;"/>
+</div>
 
 ### Running the Service
 
