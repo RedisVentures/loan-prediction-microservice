@@ -34,7 +34,7 @@ router = r = APIRouter()
         response_model=LoanDecision,
         name="loan:predict",
         operation_id="predict_loan")
-def get_loan_prediction(lr: LoanRequest):
+def get_loan_pred(lr: LoanRequest):
 
     try:
         score, probabilities = get_loan_prediction(
@@ -48,10 +48,13 @@ def get_loan_prediction(lr: LoanRequest):
             SCRIPT,
             MODEL
         )
+        loan_decision = "Approved" if score[0] == 1 else "Denied"
+        probabilities = list(probabilities[0])
     except Exception as e:
-        return HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
-    loan_decision = "Approved" if score[0] == 1 else "Denied"
 
-    return LoanDecision(loan_decision=loan_decision, probabilities=probabilities)
+    return {"loan_decision": loan_decision,
+            "probabilities": probabilities
+            }
 
