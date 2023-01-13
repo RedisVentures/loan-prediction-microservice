@@ -1,10 +1,24 @@
-from redisai import Client
+import time
+import asyncio
 
-REDIS_HOST = "172.20.0.20"
-REDIS_PORT = 6379
+from redisai import Client
+from functools import wraps, partial
+
+from config import REDIS_HOST, REDIS_PORT
+
 
 rai_client = Client(host=REDIS_HOST, port=REDIS_PORT)
 
+def wrap(func):
+    @wraps(func)
+    async def run(*args, loop=None, executor=None, **kwargs):
+        if loop is None:
+            loop = asyncio.get_event_loop()
+        pfunc = partial(func, *args, **kwargs)
+        return await loop.run_in_executor(executor, pfunc)
+    return run
+
+@wrap
 def get_loan_prediction(
         dob_ssn: str,
         zipcode: str,

@@ -31,6 +31,6 @@ if __name__ == "__main__":
         "host": "0.0.0.0",
         "reload": True,
         "port": 8877,
-        "workers": 1
+        "workers": 4
     }
     uvicorn.run("main:app", **server_attr)

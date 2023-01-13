@@ -5,10 +5,7 @@ from pydantic import BaseModel
 from fastapi import APIRouter, HTTPException
 
 from infer import get_loan_prediction
-
-SCRIPT = 'get_loan_features'
-MODEL = 'loan_model'
-
+from config import MODEL_NAME, SCRIPT_NAME
 
 # ----- Models -----
 
@@ -34,10 +31,10 @@ router = r = APIRouter()
         response_model=LoanDecision,
         name="loan:predict",
         operation_id="predict_loan")
-def get_loan_pred(lr: LoanRequest):
+async def get_loan_pred(lr: LoanRequest):
 
     try:
-        score, probabilities = get_loan_prediction(
+        score, probabilities = await get_loan_prediction(
             lr.dob_ssn,
             lr.zipcode,
             lr.age,
@@ -45,8 +42,8 @@ def get_loan_pred(lr: LoanRequest):
             lr.emp_length,
             lr.loan_amount,
             lr.int_rate,
-            SCRIPT,
-            MODEL
+            SCRIPT_NAME,
+            MODEL_NAME
         )
         loan_decision = "Approved" if score[0] == 1 else "Denied"
         probabilities = list(probabilities[0])
